@@ -1,0 +1,27 @@
+# --- Secrets & Keys ---
+*.tfvars
+*.env
+*.pem
+*.key
+.env
+
+# --- Terraform ---
+# The local state contains secrets in plain text!
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+
+# --- Go ---
+# Track source code (.go), not binaries (.exe)
+*.exe
+*.test
+go.sum
+
+# --- Python ---
+__pycache__/
+*.pyc
+
+# --- OS Junk ---
+.DS_Store
+Thumbs.db

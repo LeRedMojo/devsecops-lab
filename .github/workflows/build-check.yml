@@ -1,0 +1,38 @@
+name: DevSecOps Build Pipeline
+
+# Trigger: Run this whenever code is pushed to the 'main' branch
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  # Job 1: Build the Go Scanner
+  build-scanner:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.21'
+
+      - name: Build Binary
+        run: go build -v ./BasicScanner.go
+      
+      - name: Verify Artifact Exists
+        run: ls -lh BasicScanner
+
+      - name: Security Scan (Trivy)
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          hide-progress: false
+          format: 'table'
+          exit-code: '1' # Fail the pipeline if issues are found
+          ignore-unfixed: true
+          severity: 'CRITICAL,HIGH,MEDIUM,LOW'
