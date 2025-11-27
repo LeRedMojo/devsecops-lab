@@ -30,7 +30,7 @@ resource "azurerm_virtual_network" "vnet" {
   address_space       = ["10.0.0.0/16"]
 }
 
-# 1. Create a Subnet (The specific lane in the network)
+# 4. Create a Subnet (The specific lane in the network)
 resource "azurerm_subnet" "subnet" {
   name                 = "internal"
   resource_group_name  = azurerm_resource_group.redteam_lab.name
@@ -38,7 +38,7 @@ resource "azurerm_subnet" "subnet" {
   address_prefixes     = ["10.0.1.0/24"]
 }
 
-# 2. Create a Public IP (So we can reach it from home)
+# 5. Create a Public IP (So we can reach it from home)
 resource "azurerm_public_ip" "public_ip" {
   name                = "vm-pip"
   resource_group_name = azurerm_resource_group.redteam_lab.name
@@ -47,7 +47,7 @@ resource "azurerm_public_ip" "public_ip" {
   sku                 = "Standard"
 }
 
-# 3. Create a Network Interface (The Virtual Network Card)
+# 6. Create a Network Interface (The Virtual Network Card)
 resource "azurerm_network_interface" "nic" {
   name                = "vm-nic"
   location            = azurerm_resource_group.redteam_lab.location
@@ -61,7 +61,7 @@ resource "azurerm_network_interface" "nic" {
   }
 }
 
-# 4. The Virtual Machine (Ubuntu 20.04)
+# 7. The Virtual Machine (Ubuntu 20.04)
 resource "azurerm_linux_virtual_machine" "vm" {
   name                = "target-vm"
   resource_group_name = azurerm_resource_group.redteam_lab.name
@@ -88,12 +88,12 @@ resource "azurerm_linux_virtual_machine" "vm" {
   }
 }
 
-# 5. Output the IP Address (So we don't have to search for it)
+# 8. Output the IP Address (So we don't have to search for it)
 output "target_ip" {
   value = azurerm_public_ip.public_ip.ip_address
 }
 
-# 6. Create Network Security Group (Firewall)
+# 9. Create Network Security Group (Firewall)
 resource "azurerm_network_security_group" "nsg" {
   name                = "vm-nsg"
   location            = azurerm_resource_group.redteam_lab.location
@@ -112,7 +112,7 @@ resource "azurerm_network_security_group" "nsg" {
   }
 }
 
-# 7. Attach Firewall to the Network Interface
+# 10. Attach Firewall to the Network Interface
 resource "azurerm_network_interface_security_group_association" "nsg_assoc" {
   network_interface_id      = azurerm_network_interface.nic.id
   network_security_group_id = azurerm_network_security_group.nsg.id
