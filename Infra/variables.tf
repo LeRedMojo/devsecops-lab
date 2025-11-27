@@ -9,3 +9,9 @@ variable "source_ip" {
   type        = string
   sensitive   = true 
 }
+
+variable "username" {
+  description = "Username for Azure"
+  type        = string
+  sensitive   = true
+}

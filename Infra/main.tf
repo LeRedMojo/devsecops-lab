@@ -67,7 +67,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
   resource_group_name = azurerm_resource_group.redteam_lab.name
   location            = azurerm_resource_group.redteam_lab.location
   size                = "Standard_B1s" # Cheapest option (~$8/month)
-  admin_username      = "adminuser"
+  admin_username      = var.username
   admin_password      = var.admin_password 
   disable_password_authentication = false
 
