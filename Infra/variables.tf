@@ -1,7 +1,7 @@
 variable "admin_password" {
   description = "The password for the VM"
   type        = string
-  sensitive   = true # This hides it from Terraform CLI output
+  sensitive   = true 
 }
 
 variable "source_ip" {
@@ -11,7 +11,7 @@ variable "source_ip" {
 }
 
 variable "username" {
-  description = "Username for Azure"
+  description = "Username for VM"
   type        = string
   sensitive   = true
 }
